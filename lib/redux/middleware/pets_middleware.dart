@@ -8,14 +8,23 @@ void loadPetsMiddleware(
   action,
   NextDispatcher next,
 ) async {
-  if (action is FetchPets) {
+  if (action is FetchDogs) {
     final dogsRepo = DogsRepo();
-    dogsRepo.loadListOfPets(limit: store.state.limit, page: store.state.page).then((dogs) {
+    dogsRepo.loadListOfPets(limit: store.state.dogsState.limit, page: store.state.dogsState.page).then((dogs) {
       if (dogs != null) {
-        store.dispatch(SuccessFetchPets(dogs));
+        store.dispatch(SuccessFetchDogs(dogs));
       }
     }).catchError((error) {
-      store.dispatch(ErrorFetchPets('Error loading dogs ${error.toString()}'));
+      store.dispatch(ErrorFetchDogs('Error loading dogs ${error.toString()}'));
+    });
+  } else if (action is FetchCats) {
+    final catsRepo = CatsRepo();
+    catsRepo.loadListOfPets(limit: store.state.catsState.limit, page: store.state.catsState.page).then((cats) {
+      if (cats != null) {
+        store.dispatch(SuccessFetchCats(cats));
+      }
+    }).catchError((error) {
+      store.dispatch(ErrorFetchCats('Error loading cats ${error.toString()}'));
     });
   }
   next(action);

@@ -1,40 +1,31 @@
-import 'package:redux_cats_and_dogs/domain/pet_model.dart';
+import 'package:redux_cats_and_dogs/redux/state/cats_state.dart';
+import 'package:redux_cats_and_dogs/redux/state/dogs_state.dart';
 
 class AppState {
-  final List<Pet>? pets;
-  final int limit;
-  final int page;
-  final bool isLoading;
-  final Object? error;
+  final DogsState dogsState;
+  final CatsState catsState;
+  final int selectedTab;
 
   AppState({
-    required this.pets,
-    required this.isLoading,
-    required this.error,
-    required this.limit,
-    required this.page,
+    required this.dogsState,
+    required this.catsState,
+    required this.selectedTab,
   });
 
   AppState.empty()
-      : pets = null,
-        isLoading = false,
-        limit = 10,
-        page = 0,
-        error = null;
+      : dogsState = DogsState.empty(),
+        catsState = CatsState.empty(),
+        selectedTab = 0;
 
   AppState copyWith({
-    List<Pet>? pets,
-    bool? isLoading,
-    Object? error,
-    int? limit,
-    int? page,
+    DogsState? dogsState,
+    CatsState? catsState,
+    int? selectedTab,
   }) {
     return AppState(
-      pets: pets ?? this.pets,
-      isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
-      limit: limit ?? this.limit,
-      page: page ?? this.page,
+      dogsState: dogsState ?? this.dogsState,
+      catsState: catsState ?? this.catsState,
+      selectedTab: selectedTab ?? this.selectedTab,
     );
   }
 }

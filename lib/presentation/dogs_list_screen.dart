@@ -1,58 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
 import 'package:redux_cats_and_dogs/domain/breed_model.dart';
 import 'package:redux_cats_and_dogs/domain/pet_model.dart';
 import 'package:redux_cats_and_dogs/redux/actions/pets_actions.dart';
-import 'package:redux_cats_and_dogs/redux/middleware/pets_middleware.dart';
-import 'package:redux_cats_and_dogs/redux/reducers/pets_reducers.dart';
 import 'package:redux_cats_and_dogs/redux/state/app_state.dart';
 import 'package:redux_cats_and_dogs/utils/extensions.dart';
 import 'package:shimmer/shimmer.dart';
 
-class PetsListPage extends StatelessWidget {
-  const PetsListPage({Key? key}) : super(key: key);
+class DogsListScreen extends StatelessWidget {
+  const DogsListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final store = Store(
-      appReducer,
-      initialState: AppState.empty(),
-      middleware: [loadPetsMiddleware],
-    );
-    print('assi');
-    return StoreProvider(
-      store: store,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.black,
-          onPressed: () => store.dispatch(
-            const FetchPets(),
-          ),
-          child: const Icon(Icons.refresh),
-        ),
-        body: const PetsListBuilder(),
-      ),
+    return const Scaffold(
+      backgroundColor: Colors.white,
+      body: DogsListBuilder(),
     );
   }
 }
 
-class PetsListBuilder extends StatelessWidget {
-  const PetsListBuilder({super.key});
+class DogsListBuilder extends StatelessWidget {
+  const DogsListBuilder({super.key});
 
   @override
   Widget build(BuildContext context) {
     return StoreBuilder<AppState>(
       builder: (context, store) {
-        final state = store.state;
+        final state = store.state.dogsState;
         if (!state.isLoading && (state.pets == null || state.pets!.isEmpty)) {
-          print('FetchPets firs time');
-          store.dispatch(const FetchPets());
+          store.dispatch(const FetchDogs());
         }
-
         if (state.isLoading && (state.pets == null || state.pets!.isEmpty)) {
-          print('Loading');
           return const Center(child: CircularProgressIndicator(color: Colors.black));
         }
         if (state.error != null) {
@@ -65,8 +43,7 @@ class PetsListBuilder extends StatelessWidget {
                 child: NotificationListener<ScrollEndNotification>(
                   onNotification: (ScrollEndNotification scrollInfo) {
                     if (!state.isLoading && scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent - 100) {
-                      print('Load more');
-                      store.dispatch(const FetchPets());
+                      store.dispatch(const FetchDogs());
                       return true;
                     }
                     return false;
@@ -105,7 +82,6 @@ class PetItemBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('PetItemBuilder');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Column(
