@@ -16,54 +16,84 @@ class PetsListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = Store(
-      reducer,
+      appReducer,
       initialState: AppState.empty(),
       middleware: [loadPetsMiddleware],
     );
+    print('assi');
     return StoreProvider(
       store: store,
       child: Scaffold(
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
-          onPressed: () {
-            store.dispatch(const FetchPets());
-          },
+          onPressed: () => store.dispatch(
+            const FetchPets(),
+          ),
           child: const Icon(Icons.refresh),
         ),
-        body: StoreConnector<AppState, List<Pet>?>(
-          converter: (store) => store.state.pets,
-          builder: (context, pets) {
-            if (pets != null && pets.isNotEmpty) {
-              return PetsListBuilder(pets: pets);
-            }
-            return Container();
-          },
-        ),
+        body: const PetsListBuilder(),
       ),
     );
   }
 }
 
 class PetsListBuilder extends StatelessWidget {
-  final List<Pet> pets;
-
-  const PetsListBuilder({super.key, required this.pets});
+  const PetsListBuilder({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-            itemCount: pets.length,
-            itemBuilder: (context, index) {
-              return PetItemBuilder(pet: pets[index]);
-            },
-          ),
-        ),
-      ],
+    return StoreBuilder<AppState>(
+      builder: (context, store) {
+        final state = store.state;
+        if (!state.isLoading && (state.pets == null || state.pets!.isEmpty)) {
+          print('FetchPets firs time');
+          store.dispatch(const FetchPets());
+        }
+
+        if (state.isLoading && (state.pets == null || state.pets!.isEmpty)) {
+          print('Loading');
+          return const Center(child: CircularProgressIndicator(color: Colors.black));
+        }
+        if (state.error != null) {
+          return Text('error ${state.error.toString()}');
+        }
+        if (state.pets != null && state.pets!.isNotEmpty) {
+          return Column(
+            children: [
+              Expanded(
+                child: NotificationListener<ScrollEndNotification>(
+                  onNotification: (ScrollEndNotification scrollInfo) {
+                    if (!state.isLoading && scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent - 100) {
+                      print('Load more');
+                      store.dispatch(const FetchPets());
+                      return true;
+                    }
+                    return false;
+                  },
+                  child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                    itemCount: state.pets!.length + (state.isLoading ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == state.pets!.length) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 30),
+                            child: CircularProgressIndicator(color: Colors.black),
+                          ),
+                        );
+                      } else {
+                        return PetItemBuilder(pet: state.pets![index]);
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
+        return Container();
+      },
     );
   }
 }
@@ -75,6 +105,7 @@ class PetItemBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('PetItemBuilder');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Column(

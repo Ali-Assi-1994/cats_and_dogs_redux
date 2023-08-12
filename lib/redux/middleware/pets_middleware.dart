@@ -10,7 +10,7 @@ void loadPetsMiddleware(
 ) async {
   if (action is FetchPets) {
     final dogsRepo = DogsRepo();
-    dogsRepo.loadListOfPets(limit: 10, page: 0).then((dogs) {
+    dogsRepo.loadListOfPets(limit: store.state.limit, page: store.state.page).then((dogs) {
       if (dogs != null) {
         store.dispatch(SuccessFetchPets(dogs));
       }
@@ -18,6 +18,5 @@ void loadPetsMiddleware(
       store.dispatch(ErrorFetchPets('Error loading dogs ${error.toString()}'));
     });
   }
-
   next(action);
 }
