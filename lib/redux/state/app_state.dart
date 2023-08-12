@@ -1,9 +1,8 @@
-import 'package:redux_cats_and_dogs/redux/state/cats_state.dart';
-import 'package:redux_cats_and_dogs/redux/state/dogs_state.dart';
+import 'package:redux_cats_and_dogs/redux/state/pets_state.dart';
 
 class AppState {
-  final DogsState dogsState;
-  final CatsState catsState;
+  final PetsState dogsState;
+  final PetsState catsState;
   final int selectedTab;
 
   AppState({
@@ -13,13 +12,13 @@ class AppState {
   });
 
   AppState.empty()
-      : dogsState = DogsState.empty(),
-        catsState = CatsState.empty(),
+      : dogsState = PetsState.empty(),
+        catsState = PetsState.empty(),
         selectedTab = 0;
 
   AppState copyWith({
-    DogsState? dogsState,
-    CatsState? catsState,
+    PetsState? dogsState,
+    PetsState? catsState,
     int? selectedTab,
   }) {
     return AppState(

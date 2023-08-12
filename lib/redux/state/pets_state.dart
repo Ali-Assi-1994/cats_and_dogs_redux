@@ -1,13 +1,13 @@
 import 'package:redux_cats_and_dogs/domain/pet_model.dart';
 
-class CatsState {
+class PetsState {
   final List<Pet>? pets;
   final int limit;
   final int page;
   final bool isLoading;
   final Object? error;
 
-  CatsState({
+  PetsState({
     required this.pets,
     required this.isLoading,
     required this.error,
@@ -15,21 +15,21 @@ class CatsState {
     required this.page,
   });
 
-  CatsState.empty()
+  PetsState.empty()
       : pets = null,
         isLoading = false,
         limit = 10,
         page = 0,
         error = null;
 
-  CatsState copyWith({
+  PetsState copyWith({
     List<Pet>? pets,
     bool? isLoading,
     Object? error,
     int? limit,
     int? page,
   }) {
-    return CatsState(
+    return PetsState(
       pets: pets ?? this.pets,
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
