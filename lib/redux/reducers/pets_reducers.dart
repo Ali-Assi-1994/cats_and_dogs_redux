@@ -1,6 +1,8 @@
 import 'package:redux_cats_and_dogs/domain/pet_model.dart';
+import 'package:redux_cats_and_dogs/redux/actions/auth_actions.dart';
 import 'package:redux_cats_and_dogs/redux/actions/pets_actions.dart';
 import 'package:redux_cats_and_dogs/redux/state/app_state.dart';
+import 'package:redux_cats_and_dogs/redux/state/auth_state.dart';
 
 AppState appReducer(AppState oldState, action) {
   print('Action: $action');
@@ -60,7 +62,6 @@ AppState appReducer(AppState oldState, action) {
   } else if (action is ErrorFetchCats) {
     return oldState.copyWith(
       catsState: oldState.catsState.copyWith(
-        pets: oldState.catsState.pets,
         isLoading: false,
         error: action.error,
       ),
@@ -71,6 +72,49 @@ AppState appReducer(AppState oldState, action) {
   else if (action is SelectedTabAction) {
     return oldState.copyWith(
       selectedTab: action.selectedTab,
+    );
+  }
+
+  /// auth actions
+  else if (action is LoginAction) {
+    return oldState.copyWith(
+      authState: oldState.authState.copyWith(
+        isLoading: true,
+      ),
+    );
+  } else if (action is LoginSuccessAction) {
+    return oldState.copyWith(
+      authState: oldState.authState.copyWith(
+        isLoading: false,
+        error: null,
+        authStatus: AuthStatus.loggedIn,
+      ),
+    );
+  } else if (action is LoginErrorAction) {
+    return oldState.copyWith(
+      authState: oldState.authState.copyWith(
+        isLoading: false,
+        error: action.error,
+      ),
+    );
+  } else if (action is RegisterAction) {
+    return oldState.copyWith(
+      authState: oldState.authState.copyWith(isLoading: true),
+    );
+  } else if (action is RegisterSuccessAction) {
+    return oldState.copyWith(
+      authState: oldState.authState.copyWith(
+        isLoading: false,
+        error: null,
+        authStatus: AuthStatus.loggedIn,
+      ),
+    );
+  } else if (action is RegisterErrorAction) {
+    return oldState.copyWith(
+      authState: oldState.authState.copyWith(
+        isLoading: false,
+        error: action.error,
+      ),
     );
   } else {
     return oldState;

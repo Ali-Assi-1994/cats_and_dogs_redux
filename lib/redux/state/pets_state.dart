@@ -1,13 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:redux_cats_and_dogs/domain/pet_model.dart';
 
-class PetsState {
+class PetsState extends Equatable {
   final List<Pet>? pets;
   final int limit;
   final int page;
   final bool isLoading;
   final Object? error;
 
-  PetsState({
+  const PetsState({
     required this.pets,
     required this.isLoading,
     required this.error,
@@ -15,7 +16,7 @@ class PetsState {
     required this.page,
   });
 
-  PetsState.empty()
+  const PetsState.empty()
       : pets = null,
         isLoading = false,
         limit = 10,
@@ -37,4 +38,7 @@ class PetsState {
       page: page ?? this.page,
     );
   }
+
+  @override
+  List<Object?> get props => [pets, isLoading, error, limit, page];
 }

@@ -2,50 +2,50 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'package:redux_cats_and_dogs/domain/pet_model.dart';
 
 @immutable
-sealed class PetsAction {
-  const PetsAction();
+abstract class AppAction {
+  const AppAction();
 }
 
 @immutable
-class FetchDogs extends PetsAction {
+class FetchDogs extends AppAction {
   const FetchDogs();
 }
 
 @immutable
-class FetchCats extends PetsAction {
+class FetchCats extends AppAction {
   const FetchCats();
 }
 
 @immutable
-class SuccessFetchDogs extends PetsAction {
+class SuccessFetchDogs extends AppAction {
   final List<Pet> pets;
 
   const SuccessFetchDogs(this.pets);
 }
 
 @immutable
-class SuccessFetchCats extends PetsAction {
+class SuccessFetchCats extends AppAction {
   final List<Pet> pets;
 
   const SuccessFetchCats(this.pets);
 }
 
 @immutable
-class ErrorFetchDogs extends PetsAction {
+class ErrorFetchDogs extends AppAction {
   final Object error;
 
   const ErrorFetchDogs(this.error);
 }
 
 @immutable
-class ErrorFetchCats extends PetsAction {
+class ErrorFetchCats extends AppAction {
   final Object error;
 
   const ErrorFetchCats(this.error);
 }
 
 @immutable
-class SelectedTabAction extends PetsAction {
+abstract class SelectedTabAction extends AppAction {
   final int selectedTab;
 
   const SelectedTabAction(this.selectedTab);
