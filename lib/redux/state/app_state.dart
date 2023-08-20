@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:redux_cats_and_dogs/redux/state/auth_state.dart';
-import 'package:redux_cats_and_dogs/redux/state/pets_state.dart';
+import 'package:redux_cats_and_dogs/features/auth/state/auth_state.dart';
+import 'package:redux_cats_and_dogs/features/pets/application/state/pets_state.dart';
 
 class AppState extends Equatable {
   final PetsState dogsState;

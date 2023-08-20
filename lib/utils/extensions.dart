@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:redux_cats_and_dogs/domain/breed_model.dart';
+import 'package:redux_cats_and_dogs/features/pets/domain/pet_model.dart';
 
 extension ExtractTemperamentFromBreeds on List<Breed?> {
   String extractTemperamentFromBreeds() {
