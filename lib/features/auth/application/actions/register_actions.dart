@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:redux_cats_and_dogs/features/auth/application/actions/login_actions.dart';
 
@@ -11,12 +12,17 @@ class RegisterAction extends RegisterActionAbstract {
   final String email;
   final String password;
 
-  const RegisterAction(this.email, this.password);
+  const RegisterAction({
+    required this.email,
+    required this.password,
+  });
 }
 
 @immutable
 class RegisterSuccessAction extends RegisterActionAbstract {
-  const RegisterSuccessAction();
+  final User? user;
+
+  const RegisterSuccessAction({this.user});
 }
 
 @immutable
