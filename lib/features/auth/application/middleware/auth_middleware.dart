@@ -9,26 +9,26 @@ void authMiddleware(
   Store<AppState> store,
   action,
   NextDispatcher next,
-) async {
+) {
   if (action is LoginAction) {
-    try {
-      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-      final userCredential = await firebaseAuth.signInWithEmailAndPassword(
-        email: action.email,
-        password: action.password,
-      );
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    firebaseAuth
+        .signInWithEmailAndPassword(
+      email: action.email,
+      password: action.password,
+    )
+        .then((userCredential) {
       store.dispatch(LoginSuccessAction(user: userCredential.user));
-    } on FirebaseAuthException catch (error) {
+    }).catchError((error) {
       store.dispatch(LoginErrorAction(error));
-    }
+    });
   } else if (action is RegisterAction) {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    try {
-      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(email: action.email, password: action.password);
+    firebaseAuth.createUserWithEmailAndPassword(email: action.email, password: action.password).then((userCredential) {
       store.dispatch(RegisterSuccessAction(user: userCredential.user));
-    } on FirebaseAuthException catch (error) {
+    }).catchError((error) {
       store.dispatch(RegisterErrorAction(error));
-    }
+    });
   }
   next(action);
 }

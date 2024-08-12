@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:redux_cats_and_dogs/features/auth/application/actions/login_actions.dart';
+import 'package:redux_cats_and_dogs/redux/actions/app_action.dart';
 
 @immutable
-abstract class RegisterActionAbstract extends AuthActionAbstract {
+abstract class RegisterActionAbstract extends AppAction {
   const RegisterActionAbstract();
 }
 

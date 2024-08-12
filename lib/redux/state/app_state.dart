@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:redux_cats_and_dogs/features/auth/state/auth_state.dart';
-import 'package:redux_cats_and_dogs/features/pets/application/state/pets_state.dart';
+import 'package:redux_cats_and_dogs/features/auth/domain/auth_state.dart';
+import 'package:redux_cats_and_dogs/features/home/domain/bottom_state_navigation_model.dart';
+import 'package:redux_cats_and_dogs/features/pets/domain/pets_state.dart';
 
 class AppState extends Equatable {
   final PetsState dogsState;
   final PetsState catsState;
-  final int selectedTab;
+  final BottomStateNavigationModel selectedTab;
   final AuthState authState;
 
   const AppState({
@@ -19,12 +20,12 @@ class AppState extends Equatable {
       : dogsState = const PetsState.empty(),
         catsState = const PetsState.empty(),
         authState = const AuthState.empty(),
-        selectedTab = 0;
+        selectedTab = const BottomStateNavigationModel(selectedTabIndex: 0);
 
   AppState copyWith({
     PetsState? dogsState,
     PetsState? catsState,
-    int? selectedTab,
+    BottomStateNavigationModel? selectedTab,
     AuthState? authState,
   }) {
     return AppState(

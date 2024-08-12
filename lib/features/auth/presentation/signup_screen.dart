@@ -4,7 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux_cats_and_dogs/features/auth/application/actions/login_actions.dart';
 import 'package:redux_cats_and_dogs/features/auth/application/actions/register_actions.dart';
 import 'package:redux_cats_and_dogs/redux/state/app_state.dart';
-import 'package:redux_cats_and_dogs/features/auth/state/auth_state.dart';
+import 'package:redux_cats_and_dogs/features/auth/domain/auth_state.dart';
 import 'package:redux_cats_and_dogs/widgets/buttons_widgets.dart';
 import 'package:redux_cats_and_dogs/widgets/text_fields_widgets.dart';
 

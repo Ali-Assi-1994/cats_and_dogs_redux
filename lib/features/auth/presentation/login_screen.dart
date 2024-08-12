@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux_cats_and_dogs/features/auth/application/actions/login_actions.dart';
+import 'package:redux_cats_and_dogs/features/home/presentation/home_page.dart';
 import 'package:redux_cats_and_dogs/redux/state/app_state.dart';
-import 'package:redux_cats_and_dogs/features/auth/state/auth_state.dart';
+import 'package:redux_cats_and_dogs/features/auth/domain/auth_state.dart';
 import 'package:redux_cats_and_dogs/widgets/buttons_widgets.dart';
 import 'package:redux_cats_and_dogs/widgets/text_fields_widgets.dart';
 
@@ -38,11 +39,7 @@ class LoginScreen extends HookWidget {
                         'Login',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
-                      onPressed: () {
-                        // LoadingDialog.instance().show(
-                        //   context: context,
-                        //   text: 'Loading...',
-                        // );
+                      onPressed: () async {
                         StoreProvider.of<AppState>(context).dispatch(
                           LoginAction(
                             email: emailTextController.text,

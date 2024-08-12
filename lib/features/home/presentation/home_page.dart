@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux_cats_and_dogs/features/home/domain/bottom_state_navigation_model.dart';
 import 'package:redux_cats_and_dogs/features/pets/presentation/cats_list_screen.dart';
 import 'package:redux_cats_and_dogs/features/pets/presentation/dogs_list_screen.dart';
 import 'package:redux_cats_and_dogs/features/home/application/actions/bottom_navigator_actions.dart';
@@ -11,9 +12,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, int>(
+    return StoreConnector<AppState, BottomStateNavigationModel>(
       converter: (store) => store.state.selectedTab,
-      builder: (context, selectedTabIndex) {
+      builder: (context, data) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(backgroundColor: Colors.black, toolbarHeight: 10),
@@ -21,18 +22,17 @@ class HomePage extends StatelessWidget {
             builder: (context, store) {
               return BottomNavigationBar(
                 onTap: (selectedTab) {
+                  final storeHere = StoreProvider.of<AppState>(context);
                   switch (selectedTab) {
                     case Constants.dogsTabID:
-                      final storeHere = StoreProvider.of<AppState>(context);
                       storeHere.dispatch(const SelectedDogTabAction());
                       break;
                     case Constants.catsTabID:
-                      final storeHere = StoreProvider.of<AppState>(context);
                       storeHere.dispatch(const SelectedCatTabAction());
                       break;
                   }
                 },
-                currentIndex: selectedTabIndex,
+                currentIndex: data.selectedTabIndex,
                 showUnselectedLabels: false,
                 backgroundColor: Colors.white,
                 elevation: 0,
@@ -41,18 +41,18 @@ class HomePage extends StatelessWidget {
                   BottomNavigationBarItem(
                     backgroundColor: Colors.white,
                     label: "Dogs",
-                    icon: Image.asset(selectedTabIndex == Constants.dogsTabID ? 'assets/icons/dog_filled.png' : 'assets/icons/dog.png', height: 35),
+                    icon: Image.asset(data.selectedTabIndex == Constants.dogsTabID ? 'assets/icons/dog_filled.png' : 'assets/icons/dog.png', height: 35),
                   ),
                   BottomNavigationBarItem(
                     backgroundColor: Colors.white,
                     label: "Cats",
-                    icon: Image.asset(selectedTabIndex == Constants.catsTabID ? 'assets/icons/cat_filled.png' : 'assets/icons/cat.png', height: 35),
+                    icon: Image.asset(data.selectedTabIndex == Constants.catsTabID ? 'assets/icons/cat_filled.png' : 'assets/icons/cat.png', height: 35),
                   ),
                 ],
               );
             },
           ),
-          body: selectedTabIndex == 0 ? const DogsListScreen() : const CatsListPage(),
+          body: data.selectedTabIndex == 0 ? const DogsListScreen() : const CatsListPage(),
         );
       },
     );

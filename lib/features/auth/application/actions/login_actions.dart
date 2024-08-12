@@ -3,12 +3,7 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'package:redux_cats_and_dogs/redux/actions/app_action.dart';
 
 @immutable
-abstract class AuthActionAbstract extends AppAction {
-  const AuthActionAbstract();
-}
-
-@immutable
-abstract class LoginActionAbstract extends AuthActionAbstract {
+abstract class LoginActionAbstract extends AppAction {
   const LoginActionAbstract();
 }
 
