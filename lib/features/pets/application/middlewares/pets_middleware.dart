@@ -11,7 +11,7 @@ void loadPetsMiddleware(
 ) async {
   if (action is FetchDogs) {
     final dogsRepo = DogsRepo();
-    dogsRepo.loadListOfPets(limit: store.state.dogsState.limit, page: store.state.dogsState.page).then((dogs) {
+    dogsRepo.loadListOfPets(page: store.state.dogsState.page).then((dogs) {
       if (dogs != null) {
         store.dispatch(SuccessFetchDogs(dogs));
       }
@@ -20,7 +20,7 @@ void loadPetsMiddleware(
     });
   } else if (action is FetchCats) {
     final catsRepo = CatsRepo();
-    catsRepo.loadListOfPets(limit: store.state.catsState.limit, page: store.state.catsState.page).then((cats) {
+    catsRepo.loadListOfPets(page: store.state.catsState.page).then((cats) {
       if (cats != null) {
         store.dispatch(SuccessFetchCats(cats));
       }
