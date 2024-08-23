@@ -9,6 +9,8 @@ import 'package:redux_cats_and_dogs/features/auth/presentation/signup_screen.dar
 import 'package:redux_cats_and_dogs/features/home/application/reducers/bottom_naviagtor_reducer.dart';
 import 'package:redux_cats_and_dogs/features/pets/application/middlewares/pets_middleware.dart';
 import 'package:redux_cats_and_dogs/features/home/presentation/home_page.dart';
+import 'package:redux_cats_and_dogs/features/pets/application/middlewares/pets_middleware_class.dart';
+import 'package:redux_cats_and_dogs/features/pets/data/pets_repository.dart';
 import 'package:redux_cats_and_dogs/redux/reducers/app_reducer.dart';
 import 'package:redux_cats_and_dogs/redux/state/app_state.dart';
 
@@ -28,7 +30,11 @@ class MyApp extends StatelessWidget {
     final store = Store(
       appReducer,
       initialState: const AppState.empty(),
-      middleware: [authMiddleware, loadPetsMiddleware],
+      middleware: [
+        authMiddleware,
+        CatsMiddleware(catsRepo: CatsRepo()),
+        DogsMiddleware(dogsRepo: DogsRepo()),
+      ],
     );
     return StoreProvider(
       store: store,
