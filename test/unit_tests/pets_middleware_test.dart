@@ -29,7 +29,10 @@ void main() {
       const fetchAction = FetchCats();
       expect(store.state.catsState.pets, const PetsState.empty().pets);
 
+      /// calling the middleware with the mocked store and the action
       await catsMiddleware.call(store, fetchAction, (_) {});
+
+      /// As a result the state should be updated with the new list of fetched cats
       expect(store.state.catsState.pets, catsList);
     });
   });

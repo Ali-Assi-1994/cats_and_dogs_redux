@@ -1,8 +1,4 @@
-import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:redux_cats_and_dogs/features/auth/application/actions/login_actions.dart';
-import 'package:redux_cats_and_dogs/features/auth/application/reducers/login_reducer.dart';
-import 'package:redux_cats_and_dogs/features/auth/domain/auth_state.dart';
 import 'package:redux_cats_and_dogs/features/pets/application/actions/cats_actions.dart';
 import 'package:redux_cats_and_dogs/features/pets/application/reducers/cats_reducer.dart';
 import 'package:redux_cats_and_dogs/features/pets/domain/pet_model.dart';
@@ -13,24 +9,44 @@ import '../mocked_data/cats_mocked_data.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  group('Pets Reducer', () {
+  group('Cats Reducer', () {
     test('Fetch Cats', () {
+      /// initial state
       const PetsState initialState = PetsState.empty();
+
+      /// action that we want to test
       const action = FetchCats();
 
+      /// the expected state is to start loading, and keeps the rest of the fields as they are in the initial state
       final expectedState = PetsState(isLoading: true, error: null, pets: initialState.pets, page: initialState.page);
+
+      /// the returned result from the reducer
       final actualState = catsReducer(initialState, action);
 
+      /// expecting the actual and expected results to be matched
       expect(actualState, expectedState);
     });
 
     test('Successful fetch first 10 cats action', () {
+      /// mocked list of cats
       List<Pet> catsList = catsMockedJsonList.map((i) => Pet.fromJson(i)).toList().sublist(0, 10);
+
+      /// initial state
       const PetsState initialState = PetsState.empty();
+
+      /// action that we want to test
+
       final action = SuccessFetchCats(catsList);
 
+      /// the expected result from the reducer
+
       final expectedState = PetsState(isLoading: false, error: null, pets: catsList, page: 1);
+
+      /// the actual result from the reducer
+
       final actualState = catsReducer(initialState, action);
+
+      /// expecting the actual and expected results to be matched
 
       expect(actualState, expectedState);
     });
@@ -66,7 +82,6 @@ void main() {
     final actualSecondState = catsReducer(actualFirstState, action);
 
     expect(expectedSecondState, actualSecondState);
-
 
     /// from 20 -> 30
     List<Pet> catsList30 = catsMockedJsonList.map((i) => Pet.fromJson(i)).toList().sublist(20, 30);
