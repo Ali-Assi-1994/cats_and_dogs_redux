@@ -76,11 +76,6 @@ void main() {
     expect(emailTextFormField, findsOneWidget);
     expect(passwordTextFormField, findsOneWidget);
 
-    // var okButton = find.widgetWithText(TextButton, 'OK');
-    // expect(loginButton, findsOneWidget);
-    // await tester.tap(okButton);
-    // await tester.pumpAndSettle(settleDuration);
-
     ///login again
     await tester.enterText(emailTextFormField, 'ali@test.com');
     await tester.pumpAndSettle();

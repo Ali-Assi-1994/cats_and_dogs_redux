@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:redux/redux.dart';
-import 'package:redux_cats_and_dogs/features/home/presentation/home_page.dart';
 import 'package:redux_cats_and_dogs/features/pets/application/middlewares/pets_middleware_class.dart';
 import 'package:redux_cats_and_dogs/features/pets/presentation/cats_list_screen.dart';
 import 'package:redux_cats_and_dogs/redux/reducers/app_reducer.dart';
@@ -31,12 +30,8 @@ void main() {
     await tester.pumpWidget(
       StoreProvider(
         store: store,
-        child: MaterialApp(
-          home: const CatsListPage(),
-          routes: {
-            'home': (context) => const HomePage(),
-          },
-
+        child: const MaterialApp(
+          home: CatsListPage(),
         ),
       ),
     );
